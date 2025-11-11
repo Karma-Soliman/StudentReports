@@ -1,11 +1,13 @@
 import express from "express"
 import { logMiddleware } from "./middleware/middleware.js"
 import userRoutes from "./routes/userRoutes.js"
+import { initializeDatabase } from "./config/database.js"
 
 const app = express()
 
 const PORT = 3000
 
+initializeDatabase()
 
 app.use(express.json())
 
