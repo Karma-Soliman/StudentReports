@@ -1,7 +1,2 @@
 node_modules
 .env
-#database files
-*.sqlite
-*.sqlite3
-*.db
-database.sqlite
