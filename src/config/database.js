@@ -1,39 +1,39 @@
 import Database from 'better-sqlite3'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import config from './config.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const db = new Database(path.join(__dirname, '../../database.sqlite'))
+let dbPath
+
+if (path.isAbsolute(config.databaseUrl)) {
+    //absolute path (production)
+    dbPath = config.databaseUrl
+} else {
+    // relative path (development)
+    dbPath = path.join(__dirname, '../../', config.databaseUrl)
+}
+
+console.log(`Database path ${dbPath}`)
+
+const db = new Database(dbPath)
 
 db.pragma = ('foreign_keys = ON')
 
-export const initializeDatabase = ()=> {
-    const createUsersTable = `
-    Create table if not exists users (
-    id integer primary key autoincrement,
-    name text not null,
-    email text unique,
-    created_at datetime default current_timestamp
-    )`
-    db.exec(createUsersTable)
+export const initializeDatabase = async ()=> {
 
-    console.log("Database initialized")
+    console.log("Database initializing")
     
-    // first use practice
-    const userCount = db.prepare('select count(*) from users').get()
-
-    if (userCount.count === 0) {
-        console.log('adding sample data...')
-        const insert = db.prepare('insert into user (name, email) values (?, ?)')
-        insert.run('Alice', 'alice@ex.com')
-        insert.run("Bob", "bob@ex.com")
-        insert.run("Charlie", "charlie@ex.com")
-        insert.run("Dave", "dave@ex.com")
-
-        console.log('sample data added!')
+    //import models
+    const User = (await import('../models/User.js')).default
+    User.createTable()
+    if (config.isDevelopment()) {
+        User.seed()
     }
+    
+    console.log("database initialized!")
 }
 
 export default db

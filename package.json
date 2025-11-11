@@ -1,19 +1,20 @@
 {
-  "name": "webdev",
+  "name": "api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "REST API with Express, SQLite, and JWT",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
-  "keywords": [],
+  "keywords": ["api", "rest", "express", "sqlite"],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
     "better-sqlite3": "^12.4.1",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0"
   },
   "devDependencies": {
