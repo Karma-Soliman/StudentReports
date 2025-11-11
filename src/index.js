@@ -1,29 +1,31 @@
 import express from "express"
 import { logMiddleware } from "./middleware/middleware.js"
+import userRoutes from "./routes/userRoutes.js"
 
 const app = express()
 
 const PORT = 3000
 
+
 app.use(express.json())
 
-const users = [
-  { id: 1, name: "Alice" },
-  { id: 2, name: "Bob" },
-  { id: 3, name: "Charlie" },
-  { id: 4, name: "Dave" },
-]
+app.use("/users", userRoutes)
 
-
-
-app.get("/", logMiddleware, (req, res) => {
-  res.json({users, data: req.body })
+app.get("/", (req, res) => {
+  res.json({
+    message: "Welcome to the API!",
+    endpoints: {
+      users: "/users"
+    }
+  })
 })
-
-app.post("/", (req, res) => {
-  console.log(req)
-}) 
 
 app.listen(PORT, () => {
   console.log(`ServerPort is running http://localhost:${PORT}`)
+  console.log(`API Documentation:`)
+  console.log(`  GET    /users      - Get all users`)
+  console.log(`  GET    /users/:id  - Get user by ID`)
+  console.log(`  POST   /users      - Create new user`)
+  console.log(`  PUT    /users/:id  - Update user`)
+  console.log(`  DELETE /users/:id  - Delete user`)
 })
