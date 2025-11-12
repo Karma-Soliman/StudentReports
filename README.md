@@ -1,20 +1,22 @@
 # User Management REST API
+
 A full-featured REST API built with Node.js, Express, and SQLite for user management with authentication and authorization.
 
-## Features
+## 🚀 Features
 
-- User CRUD Operations - Create, Read, Update, Delete users
-- Authentication System - JWT-based authentication with register/login
-- API Key Protection - Secure endpoints with API key validation
-- SQLite Database - Lightweight database with better-sqlite3
-- Password Hashing - Secure password storage with bcrypt
-- Development Seeding - Auto-populate sample data in dev mode
-- Environment Configuration - Flexible config with dotenv
-- Middleware Architecture - Logging, authentication, and API key validation
-- Error Handling - Comprehensive error responses
+- **User CRUD Operations** - Create, Read, Update, Delete users
+- **Authentication System** - JWT-based authentication with register/login
+- **API Key Protection** - Secure endpoints with API key validation
+- **SQLite Database** - Lightweight database with better-sqlite3
+- **Password Hashing** - Secure password storage with bcrypt
+- **Development Seeding** - Auto-populate sample data in dev mode
+- **Environment Configuration** - Flexible config with dotenv
+- **Middleware Architecture** - Logging, authentication, and API key validation
+- **Error Handling** - Comprehensive error responses
 
-## Project Structure
-`├── src/
+## 📁 Project Structure
+```
+├── src/
 │   ├── config/
 │   │   ├── config.js          # Environment configuration
 │   │   └── database.js        # Database setup & initialization
@@ -36,26 +38,30 @@ A full-featured REST API built with Node.js, Express, and SQLite for user manage
 ├── .env                       # Environment variables (not in git)
 ├── .env.example               # Example environment variables
 ├── database.sqlite            # SQLite database (auto-generated)
-└── package.json`
-
-## Technologies Used
-
-* Runtime: Node.js
-* Framework: Express.js
-* Database: SQLite with better-sqlite3
-* Authentication: JSON Web Tokens (JWT)
-* Password Security: bcrypt
-* Environment Management: dotenv
-
-## Setup Instructions
-
-1. Clone and Install
-```# Install dependencies
-npm install```
-2. Configure Environment
-
-Create a .env file in the root directory:
+└── package.json
 ```
+
+## 🛠️ Technologies Used
+
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: SQLite with better-sqlite3
+- **Authentication**: JSON Web Tokens (JWT)
+- **Password Security**: bcrypt
+- **Environment Management**: dotenv
+
+## ⚙️ Setup Instructions
+
+### 1. Clone and Install
+```bash
+# Install dependencies
+npm install
+```
+
+### 2. Configure Environment
+
+Create a `.env` file in the root directory:
+```env
 PORT=3000
 NODE_ENV=development
 DATABASE_URL=./database.sqlite
@@ -63,41 +69,41 @@ API_KEY=your-secret-api-key-here
 JWT_SECRET=your-jwt-secret-min-32-characters
 JWT_EXPIRES_IN=24h
 ```
-3. Run the Application
 
-```# Development mode
+### 3. Run the Application
+```bash
+# Development mode
 npm run dev
 
 # Production mode
-npm start```
+npm start
+```
 
 The server will start at `http://localhost:3000`
 
+## 📡 API Endpoints
 
-# API Endpoints
-## Public Endpoints (No Auth Required)
+### Public Endpoints (No Auth Required)
 
-| Method   | Endpoint       | Description                |
-| -------- | --------       |-------------               |
-| Get      | /              | Welcome message & API info |
-| Get      | /health        | Health check endpoint      |
-| Post     | /auth/register | Register new user          | 
-| Post     | /auth/login    | Login user                 | 
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Welcome message & API info |
+| GET | `/health` | Health check endpoint |
+| POST | `/auth/register` | Register new user |
+| POST | `/auth/login` | Login user |
 
-## Protected Endpoints (Require JWT Token)
+### Protected Endpoints (Require JWT Token)
 
-| Method   | Endpoint   | Description            |
-| -------- | --------   |-------------           |
-| Get      | /auth/me   | Get current user info  |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/auth/me` | Get current user info |
 
+### Protected Endpoints (Require API Key)
 
-## Protected Endpoints (Require API Key)
-
-| Method   | Endpoint    | Description     |
-| -------- | --------    |-------------    |
-| Get      | /users      |Get all users    |
-| Get      | /users/:id  | Get user by ID  |
-| Post     | /users      | Create new user | 
-| Put      | /users/:id  |Update user      | 
-| Delete   | /users/:id  | Delete user     | 
-
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/users` | Get all users |
+| GET | `/users/:id` | Get user by ID |
+| POST | `/users` | Create new user |
+| PUT | `/users/:id` | Update user |
+| DELETE | `/users/:id` | Delete user |
