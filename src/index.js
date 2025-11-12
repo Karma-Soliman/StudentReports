@@ -3,6 +3,7 @@ import config from "./config/config.js"
 import { logMiddleware } from "./middleware/middleware.js"
 import { validateApiKey, validateApiKeyProduction } from "./middleware/apiKey.js"
 import userRoutes from "./routes/userRoutes.js"
+import moviesRoutes from "./routes/moviesRoutes.js"
 import { initializeDatabase } from "./config/database.js"
 import authRoutes from "./routes/authRoutes.js"
 
@@ -26,7 +27,8 @@ app.get("/", (req, res) => {
       users: "/users",
       register: '/auth/register',
       login: '/auth/login',
-      me: '/auth/me'
+      me: '/auth/me',
+      movies: "/movies"
     }
   })
 })
@@ -45,6 +47,7 @@ app.get('/health', (req, res) => {
 //1:
 app.use('/auth', authRoutes)
 app.use('/users', validateApiKey, userRoutes)
+app.use('/movies', moviesRoutes)
 
 // or 2 (easier for development)
 //app.use('/users, validateApiKeyProduction, userRoutes)
@@ -76,14 +79,23 @@ app.listen(config.port, () => {
   console.log(`📊 Database ready`)
   console.log(`  GET    /              - Welcome message (public)`)
   console.log(`  GET    /health        - Health check (public)`)
+  console.log("---Authentication--")
   console.log(`  POST   /auth/register - Register new user (public)`)
   console.log(`  POST   /auth/login    - Login user (public)`)
   console.log(`  GET    /auth/me       - Get current user (requires token)`)
+  console.log("---Users--")
   console.log(`  GET    /users      - Get all users (protected)`)
   console.log(`  GET    /users/:id  - Get user by ID (protected)`)
   console.log(`  POST   /users      - Create new user (protected)`)
   console.log(`  PUT    /users/:id  - Update user (protected)`)
   console.log(`  DELETE /users/:id  - Delete user (protected)`)
+  console.log("---Movies--")
+  console.log(`  GET    /movies      - Get all movies (public)`)
+  console.log(`  GET    /movies/:id  - Get movie by ID (public)`)
+  console.log(`  POST   /movies      - Create new movie (public)`)
+  console.log(`  PUT    /movies/:id  - Update movie (protected)`)
+  console.log(`  DELETE /movies/:id  - Delete movie (protected)`)
+
 })
 
 export default app

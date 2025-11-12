@@ -4,7 +4,7 @@ A full-featured REST API built with Node.js, Express, and SQLite for user manage
 
 ## 🚀 Features
 
-- **User CRUD Operations** - Create, Read, Update, Delete users
+- **User and Movie CRUD Operations** - Create, Read, Update, Delete 
 - **Authentication System** - JWT-based authentication with register/login
 - **API Key Protection** - Secure endpoints with API key validation
 - **SQLite Database** - Lightweight database with better-sqlite3
@@ -23,17 +23,21 @@ A full-featured REST API built with Node.js, Express, and SQLite for user manage
 │   ├── controllers/
 │   │   ├── authController.js  # Auth endpoints (register/login)
 │   │   └── userController.js  # User CRUD endpoints
+│   │   └── moviesController.js  # Movie CRUD endpoints
 │   ├── middleware/
 │   │   ├── apiKey.js          # API key validation
 │   │   ├── authen.js          # JWT token verification
 │   │   └── middleware.js      # Request logging
 │   ├── models/
 │   │   └── User.js            # User model & database operations
+│   │   └── Movies.js            # Movie model & database operations
 │   ├── routes/
 │   │   ├── authRoutes.js      # Authentication routes
 │   │   └── userRoutes.js      # User management routes
+│   │   └── moviesRoutes.js      # Movie management routes
 │   ├── services/
 │   │   └── userServices.js    # Business logic layer
+│   │   └── moviesServices.js    # Business logic layer
 │   └── index.js               # App entry point
 ├── .env                       # Environment variables (not in git)
 ├── .env.example               # Example environment variables
@@ -91,12 +95,17 @@ The server will start at `http://localhost:3000`
 | GET | `/health` | Health check endpoint |
 | POST | `/auth/register` | Register new user |
 | POST | `/auth/login` | Login user |
+| GET | `/movies` | Get all movies |
+| GET | `/movies/:id` | Get movie by ID |
+| POST | `/movies` | Create movie |
 
 ### Protected Endpoints (Require JWT Token)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/auth/me` | Get current user info |
+| PUT | `/movies/:id` | Update movie |
+| DELETE | `/movies/:id` | Delete movie |
 
 ### Protected Endpoints (Require API Key)
 

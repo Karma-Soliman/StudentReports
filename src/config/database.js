@@ -33,6 +33,12 @@ export const initializeDatabase = async ()=> {
         User.seed()
     }
     
+    const Movies = (await import("../models/Movies.js")).default
+    Movies.createTable()
+    if (config.isDevelopment()) {
+      Movies.seed()
+    }
+    
     console.log("database initialized!")
 }
 

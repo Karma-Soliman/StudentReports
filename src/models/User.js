@@ -1,4 +1,5 @@
 import db from "../config/database.js"
+import bcrypt from "bcrypt"
 
 class User {
   //table schema
@@ -100,10 +101,10 @@ class User {
         if (count === 0) {
             console.log("adding sample data...")
             const sampleUsers = [
-                { name: "Alice", email: "alice@example.com" },
-                { name: "Bob", email: "bob@example.com" },
-                { name: "Charlie", email: "charlie@example.com" },
-                { name: "Dave", email: "dave@example.com" },
+              { name: "Alice", email: "alice@example.com", password: bcrypt.hashSync("123456", 8) },
+              { name: "Bob", email: "bob@example.com", password: bcrypt.hashSync("123456", 8) },
+              { name: "Charlie", email: "charlie@example.com", password: bcrypt.hashSync("123456", 8)},
+              { name: "Dave", email: "dave@example.com", password: bcrypt.hashSync("123456", 8)},
             ]
             sampleUsers.forEach(user => this.create(user))
 
