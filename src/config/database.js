@@ -20,7 +20,7 @@ console.log(`Database path ${dbPath}`)
 
 const db = new Database(dbPath)
 
-db.pragma = ('foreign_keys = ON')
+db.pragma('foreign_keys = ON')
 
 export const initializeDatabase = async ()=> {
 

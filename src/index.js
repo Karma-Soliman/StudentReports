@@ -4,6 +4,7 @@ import { logMiddleware } from "./middleware/middleware.js"
 import { validateApiKey, validateApiKeyProduction } from "./middleware/apiKey.js"
 import userRoutes from "./routes/userRoutes.js"
 import { initializeDatabase } from "./config/database.js"
+import authRoutes from "./routes/authRoutes.js"
 
 const app = express()
 
@@ -22,7 +23,10 @@ app.get("/", (req, res) => {
     version: "1.0.0",
     environment: config.nodeEnv,
     endpoints: {
-      users: "/users"
+      users: "/users",
+      register: '/auth/register',
+      login: '/auth/login',
+      me: '/auth/me'
     }
   })
 })
@@ -39,6 +43,7 @@ app.get('/health', (req, res) => {
 //protected routes 
 
 //1:
+app.use('/auth', authRoutes)
 app.use('/users', validateApiKey, userRoutes)
 
 // or 2 (easier for development)
@@ -57,7 +62,7 @@ app.use((err, req, res, next) => {
   console.error('Error: ', err)
   res.status(err.status || 500).json({
     error: err.message || 'Internal Server Error', 
-    ...app(config.isDevelopment() && { stack: err.stack})
+    ...(config.isDevelopment() && { stack: err.stack})
   })
 })
 
@@ -69,11 +74,16 @@ app.listen(config.port, () => {
   )
   console.log(`\nAPI Documentation:`)
   console.log(`📊 Database ready`)
-  console.log(`  GET    /users      - Get all users`)
-  console.log(`  GET    /users/:id  - Get user by ID`)
-  console.log(`  POST   /users      - Create new user`)
-  console.log(`  PUT    /users/:id  - Update user`)
-  console.log(`  DELETE /users/:id  - Delete user`)
+  console.log(`  GET    /              - Welcome message (public)`)
+  console.log(`  GET    /health        - Health check (public)`)
+  console.log(`  POST   /auth/register - Register new user (public)`)
+  console.log(`  POST   /auth/login    - Login user (public)`)
+  console.log(`  GET    /auth/me       - Get current user (requires token)`)
+  console.log(`  GET    /users      - Get all users (protected)`)
+  console.log(`  GET    /users/:id  - Get user by ID (protected)`)
+  console.log(`  POST   /users      - Create new user (protected)`)
+  console.log(`  PUT    /users/:id  - Update user (protected)`)
+  console.log(`  DELETE /users/:id  - Delete user (protected)`)
 })
 
 export default app

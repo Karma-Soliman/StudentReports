@@ -20,7 +20,7 @@ export const getUserById = (id) => {
 }
 
 export const createUser = (userData) => {
-  const { name, email } = userData
+  const { name, email, password } = userData
 
   //check if email exists already
   if (email && User.emailExist(email)) {
@@ -31,7 +31,7 @@ export const createUser = (userData) => {
   // DO THIS!^^
   //creates user
 
-  return User.create({ name, email })
+  return User.create({ name, email, password })
 }
 
 export const updateUser = (id, userData) => {

@@ -4,7 +4,13 @@ import * as userServices from "../services/userServices.js"
 export const getAllUsers = (req, res) => {
     try {
         const users = userServices.getAllUsers()
-        res.status(200).json(users)
+
+        const usersWithoutPass = users.map(user => {
+            const { password: _, ...userWithoutPasswords } = user
+            return userWithoutPasswords
+        })
+
+        res.status(200).json(usersWithoutPass)
     } catch (error) {
         res.status(500).json({message: error.message})
     }
@@ -18,7 +24,10 @@ export const getUserById = (req, res) => {
         if (!user) {
             return res.status(404).json({message: "User not found!"})
         }
-        res.status(200).json(user)
+
+        const { password: _, ...userWithoutPass } = user
+
+        res.status(200).json(userWithoutPass)
     } catch (error) {
         res.status(500).json({message: error.message})
     }
@@ -31,7 +40,10 @@ export const createUser = (req, res) => {
             return res.status(400).json({ message: "Name is required" })
         }
         const newUser = userServices.createUser({ name, email })
-        res.status(201).json(newUser)
+
+        const { password: _, ...userWithoutPass } = newUser
+
+        res.status(200).json(userWithoutPass)
     } catch (error) {
         if (error.message === "Email already exists") {
             return res.status(409).json({ message: error.message })
@@ -49,7 +61,9 @@ export const updateUser = (req, res) => {
         if (!updatedUser) {
             return res.status(404).json({message: "User not found!"})
         }
-        res.status(200).json(updatedUser)
+        const { password: _, ...userWithoutPass } = updatedUser
+
+        res.status(200).json(userWithoutPass)
     } catch (error) {
         if (error.message === "Email already exists") {
           return res.status(409).json({ message: error.message })

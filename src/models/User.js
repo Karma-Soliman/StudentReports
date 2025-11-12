@@ -10,6 +10,7 @@ class User {
             id integer primary key autoincrement,
             name text not null,
             email text unique,
+            password text,
             created_at datetime default current_timestamp,
             updated_at datetime default current_timestamp
             )`
@@ -33,13 +34,13 @@ class User {
   }
 
   static create(userData) {
-    const { name, email } = userData
+    const { name, email, password } = userData
 
     //creates user
     const stmt = db.prepare(
-      `insert into ${this.tableName} (name, email) values (?, ?)`
+      `insert into ${this.tableName} (name, email, password) values (?, ?, ?)`
     )
-    const result = stmt.run(name, email || null)
+    const result = stmt.run(name, email || null, password || null)
 
     return this.findbyId(result.lastInsertRowid)
   }
