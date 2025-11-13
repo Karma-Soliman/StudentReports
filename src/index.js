@@ -1,4 +1,5 @@
 import express from "express"
+import cors from "cors"  //for the diff ports
 import config from "./config/config.js"
 import { logMiddleware } from "./middleware/middleware.js"
 import { validateApiKey, validateApiKeyProduction } from "./middleware/apiKey.js"
@@ -11,7 +12,7 @@ import authRoutes from "./routes/authRoutes.js"
 const app = express()
 
 await initializeDatabase()
-
+app.use(cors())
 app.use(express.json())
 
 //app.use("/users", userRoutes) // not used anymor but check 

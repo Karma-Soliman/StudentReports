@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Auth Section (Login/Register) -->
+      <section id="auth-section" class="auth-container">
+        <h2 id="auth-title">Login</h2>
+        <div id="auth-message"></div>
+        <form id="auth-form">
+          <div class="form-group" id="name-group">
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="your@email.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password (min 5 chars)"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%">
+            <span id="auth-btn-text">Login</span>
+          </button>
+        </form>
+        <div class="auth-switch">
+          <span id="auth-switch-text">Don't have an account?</span>
+          <a id="auth-switch-link">Register</a>
+        </div>
+      </section>
+
+      <!-- Main App Section -->
+      <div id="app-section" class="hidden">
+        <!-- Header -->
+        <div class="header">
+          <h1>Movies</h1>
+          <div class="user-info">
+            <span id="user-name"></span>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('movies')">
+            All Movies
+          </button>
+          <button class="tab" onclick="showTab('favorites')">
+            My Favorites
+          </button>
+          <button class="tab" onclick="showTab('add')">Add Movie</button>
+        </div>
+
+        <!-- Movies Tab -->
+        <div id="movies-tab" class="content-section">
+          <h2>All Movies</h2>
+          <div id="movies-message"></div>
+          <div id="movies-grid" class="movies-grid">
+            <div class="loading">Loading movies...</div>
+          </div>
+        </div>
+
+        <!-- Favorites Tab -->
+        <div id="favorites-tab" class="content-section hidden">
+          <h2>My Favorite Movies</h2>
+          <div id="favorites-message"></div>
+          <div id="favorites-grid" class="movies-grid">
+            <div class="loading">Loading favorites...</div>
+          </div>
+        </div>
+
+        <!-- Add Movie Tab -->
+        <div id="add-tab" class="content-section hidden">
+          <h2>Add New Movie</h2>
+          <div id="add-movie-message"></div>
+          <form id="add-movie-form" class="add-movie-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Title *</label>
+                <input type="text" id="movie-title" required />
+              </div>
+              <div class="form-group">
+                <label>Director</label>
+                <input type="text" id="movie-director" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Year</label>
+                <input type="number" id="movie-year" min="1900" max="2100" />
+              </div>
+              <div class="form-group">
+                <label>Genre</label>
+                <input type="text" id="movie-genre" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success">Add Movie</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Movie Modal -->
+    <div id="edit-modal" class="modal-overlay" onclick="closeEditModal(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <h2>Edit Movie</h2>
+        <div id="edit-message"></div>
+        <form id="edit-movie-form">
+          <input type="hidden" id="edit-movie-id" />
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" id="edit-title" required />
+          </div>
+          <div class="form-group">
+            <label>Director</label>
+            <input type="text" id="edit-director" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Year</label>
+              <input type="number" id="edit-year" min="1900" max="2100" />
+            </div>
+            <div class="form-group">
+              <label>Genre</label>
+              <input type="text" id="edit-genre" />
+            </div>
+          </div>
+          <div class="modal-buttons">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeEditModal()"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div
+      id="delete-modal"
+      class="modal-overlay"
+      onclick="closeDeleteModal(event)"
+    >
+      <div class="modal" onclick="event.stopPropagation()">
+        <h2>Delete Movie</h2>
+        <p style="margin: 20px 0; color: #4a5568">
+          Are you sure you want to delete "<span id="delete-movie-title"></span
+          >"? This action cannot be undone.
+        </p>
+        <div class="modal-buttons">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="closeDeleteModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            onclick="confirmDelete()"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
