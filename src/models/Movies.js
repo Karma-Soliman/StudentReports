@@ -11,7 +11,7 @@ class Movies {
             title text not null,
             director text,
             year integer,
-            genre text
+            genre text,
             created_at datetime default current_timestamp,
             updated_at datetime default current_timestamp
             )`

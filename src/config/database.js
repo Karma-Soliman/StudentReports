@@ -38,6 +38,9 @@ export const initializeDatabase = async ()=> {
     if (config.isDevelopment()) {
       Movies.seed()
     }
+
+    const Favorites = (await import("../models/Favorites.js")).default
+    Favorites.createTable()
     
     console.log("database initialized!")
 }

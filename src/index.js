@@ -4,6 +4,7 @@ import { logMiddleware } from "./middleware/middleware.js"
 import { validateApiKey, validateApiKeyProduction } from "./middleware/apiKey.js"
 import userRoutes from "./routes/userRoutes.js"
 import moviesRoutes from "./routes/moviesRoutes.js"
+import favoriteRoutes from "./routes/favoriteRoutes.js"
 import { initializeDatabase } from "./config/database.js"
 import authRoutes from "./routes/authRoutes.js"
 
@@ -28,7 +29,8 @@ app.get("/", (req, res) => {
       register: '/auth/register',
       login: '/auth/login',
       me: '/auth/me',
-      movies: "/movies"
+      movies: "/movies",
+      favorites: "/favorites"
     }
   })
 })
@@ -48,6 +50,7 @@ app.get('/health', (req, res) => {
 app.use('/auth', authRoutes)
 app.use('/users', validateApiKey, userRoutes)
 app.use('/movies', moviesRoutes)
+app.use("/favorites", favoriteRoutes)
 
 // or 2 (easier for development)
 //app.use('/users, validateApiKeyProduction, userRoutes)
@@ -95,6 +98,11 @@ app.listen(config.port, () => {
   console.log(`  POST   /movies      - Create new movie (public)`)
   console.log(`  PUT    /movies/:id  - Update movie (protected)`)
   console.log(`  DELETE /movies/:id  - Delete movie (protected)`)
+  console.log("---Favorites--")
+  console.log(`  GET    /favorites      - Get all favorites for token user (protected)`)
+  console.log(`  GET    /favorites/:movie_id  - Get favorite by ID (protected)`)
+  console.log(`  POST   /favorites      - Add a favorite (protected)`)
+  console.log(`  DELETE /favorites/:movie_id  - Remove Favorite (protected)`)
 
 })
 
