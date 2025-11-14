@@ -1,5 +1,5 @@
 // Configuration
-const API_URL = "http://localhost:3000"
+const API_URL = "https://studentreports-y3p1.onrender.com"
 let token = localStorage.getItem("token")
 let currentUser = null
 let isLoginMode = true
