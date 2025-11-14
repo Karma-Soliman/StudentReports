@@ -197,25 +197,36 @@ async function loadFavorites() {
 
 function createMovieCard(movie, isFavoritesTab = false) {
   const isFavorited = userFavorites.has(movie.id)
+  const isOwner = currentUser && movie.user_id === currentUser.id
   return `
-        <div class="movie-card">
-            <h3>${movie.title}</h3>
-            <p><strong>Director:</strong> ${movie.director || "N/A"}</p>
-            <p><strong>Year:</strong> ${movie.year || "N/A"}</p>
-            <p><strong>Genre:</strong> ${movie.genre || "N/A"}</p>
-            <div class="movie-actions">
-                <button class="favorite-btn ${isFavorited ? "favorited" : ""}" 
-                        onclick="toggleFavorite(${movie.id})">
-                    ${isFavorited ? "⭐ Favorited" : "☆ Add to Favorites"}
-                </button>
-                <button class="btn btn-warning btn-small" onclick="openEditModal(${movie.id})">
-                        Edit
-                </button>
-                <button class="btn btn-danger btn-small" onclick="openDeleteModal(${movie.id}, '${movie.title.replace(/'/g, "\\'")}')">
-                        Delete
-                </button>
-            </div>
-        </div>
+    <div class="movie-card">
+      <h3>${movie.title}</h3>
+      <p><strong>Director:</strong> ${movie.director || "N/A"}</p>
+      <p><strong>Year:</strong> ${movie.year || "N/A"}</p>
+      <p><strong>Genre:</strong> ${movie.genre || "N/A"}</p>
+      <div class="movie-actions">
+        <button class="favorite-btn ${isFavorited ? "favorited" : ""}" 
+                onclick="toggleFavorite(${movie.id})">
+          ${isFavorited ? "⭐ Favorited" : "☆ Favorite"}
+        </button>
+        ${
+          isOwner
+            ? `
+          <button class="btn btn-warning btn-small" onclick="openEditModal(${
+            movie.id
+          })">
+            ✏️ Edit
+          </button>
+          <button class="btn btn-danger btn-small" onclick="openDeleteModal(${
+            movie.id
+          }, '${movie.title.replace(/'/g, "\\'")}')">
+            🗑️ Delete
+          </button>
+        `
+            : '<span style="color: #718096; font-size: 12px;">Not your movie</span>'
+        }
+      </div>
+    </div>
     `
 }
 

@@ -12,6 +12,7 @@ class Movies {
             director text,
             year integer,
             genre text,
+            user_id INTEGER NOT NULL,
             created_at datetime default current_timestamp,
             updated_at datetime default current_timestamp
             )`
@@ -30,17 +31,18 @@ class Movies {
     return stmt.get(id)
   }
   static create(movieData) {
-    const { title, director, year, genre } = movieData
+    const { title, director, year, genre, user_id } = movieData
 
     //creates movie
     const stmt = db.prepare(
-      `insert into ${this.tableName} (title, director, year, genre) values (?, ?, ?, ?)`
+      `insert into ${this.tableName} (title, director, year, genre, user_id) values (?, ?, ?, ?, ?)`
     )
     const result = stmt.run(
       title,
       director || null,
       year || null,
-      genre || null
+      genre || null,
+      user_id
     )
 
     return this.findbyId(result.lastInsertRowid)
@@ -91,6 +93,14 @@ class Movies {
     return stmt.get().count
   }
 
+  static isOwner(movieId, userId) {
+    const stmt = db.prepare(
+      `SELECT user_id FROM ${this.tableName} WHERE id = ?`
+    )
+    const movie = stmt.get(movieId)
+    return movie && movie.user_id === userId
+  }
+
   static seed() {
     const count = this.count()
     if (count === 0) {
@@ -101,24 +111,28 @@ class Movies {
           director: "Frank Darabont",
           year: 1994,
           genre: "Drama",
+          user_id: 1,
         },
         {
           title: "The Godfather",
           director: "Francis Ford Coppola",
           year: 1972,
           genre: "Crime",
+          user_id: 1,
         },
         {
           title: "The Dark Knight",
           director: "Christopher Nolan",
           year: 2008,
           genre: "Action",
+          user_id: 2,
         },
         {
           title: "Pulp Fiction",
           director: "Quentin Tarantino",
           year: 1994,
           genre: "Crime",
+          user_id: 3,
         },
       ]
       sampleMovies.forEach((movie) => this.create(movie))
