@@ -1,0 +1,14 @@
+{
+  "extends": ["config:base"],
+  "assignees": ["Karma-Soliman"],
+  "packageRules": [
+    {
+      "updateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "updateTypes": ["major"],
+      "automerge": false
+    }
+  ]
+}
