@@ -10,5 +10,9 @@
       "updateTypes": ["major"],
       "automerge": false
     }
-  ]
+  ],
+  "dependencyDashboard": true,
+  "prCreation": "immediate",
+  "dependencyDashboardTitle": "renovate dependency dashboard" 
+
 }
